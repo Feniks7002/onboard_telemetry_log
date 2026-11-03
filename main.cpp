@@ -45,8 +45,8 @@ public :
     }
 
     // Ustawia flagę informującą o wdrożeniu spadochronu
-    void onParachuteDeployed () {
-        parachute = true;
+    void onParachuteDeployed ( bool value ) {
+        parachute = value;
     }
 
     /**
@@ -106,8 +106,7 @@ public :
         // Przesunięcie indeksu na kolejną pozycję
         currentIndex = (currentIndex + 1) % bufferSize;
 
-        // Licznik nie może przekroczyć rozmiaru bufora
-        if (currentIndex < bufferSize) {
+        if (framesCount  < bufferSize) {
             framesCount++;
         }
     }
@@ -145,6 +144,27 @@ public :
 
 int main() {
     TelemetryBlackBox box;
+
+    // TEST 1: Poprawna ramka telemetryczna
+    box.onRocketStateChange(FLIGHT);
+    box.onParachuteDeployed(false);
+    box.onBaroReading(false, 1500);
+    box.recordCurrentState();
+
+    uint32_t result1 = box.getLastDataframe();
+
+    // TEST 2: Błąd barometru
+    box.onBaroReading(true, 1500);
+    box.recordCurrentState();
+
+    uint32_t result2 = box.getLastDataframe();
+
+    // TEST 3: Stan DISARM i poprawna wysokość 0
+    box.onRocketStateChange(DISARM);
+    box.onBaroReading(false, 1500);
+    box.recordCurrentState();
+
+    uint32_t result3 = box.getLastDataframe();
     
     return 0;
 }
