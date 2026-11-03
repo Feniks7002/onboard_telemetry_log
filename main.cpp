@@ -23,6 +23,15 @@ private:
     bool baro_error;
     
 public :
+    TelemetryBlackBox() {
+        state = DISARM;
+        currentIndex = 0;
+        framesCount = 0;
+        altitude = 0;
+        parachute = false;
+        baro_error = false;
+    }
+
     void onRocketStateChange ( RocketState state ) ;
     void onParachuteDeployed () ;
     /**
