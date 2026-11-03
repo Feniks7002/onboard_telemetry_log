@@ -32,7 +32,10 @@ public :
         baro_error = false;
     }
 
-    void onRocketStateChange ( RocketState state ) ;
+    void onRocketStateChange ( RocketState state ) {
+        this->state = state;
+    }
+    
     void onParachuteDeployed () ;
     /**
     * @param error - Informuje czy wyst ąpił błąd barometru
