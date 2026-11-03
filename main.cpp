@@ -10,6 +10,18 @@ enum RocketState : uint8_t {
 };
 
 class TelemetryBlackBox {
+private:
+    static const uint8_t bufforSize = 16;
+
+    RocketState state;
+    uint8_t currentIndex;
+    uint8_t framesCount;
+    uint16_t altitude;
+    uint32_t frames[bufforSize] = {};
+
+    bool parachute;
+    bool baro_error;
+    
 public :
     void onRocketStateChange ( RocketState state ) ;
     void onParachuteDeployed () ;
