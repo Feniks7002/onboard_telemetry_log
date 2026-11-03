@@ -35,8 +35,11 @@ public :
     void onRocketStateChange ( RocketState state ) {
         this->state = state;
     }
+
+    void onParachuteDeployed () {
+        parachute = true;
+    }
     
-    void onParachuteDeployed () ;
     /**
     * @param error - Informuje czy wyst ąpił błąd barometru
     * @param value - Odczyt wysoko ści w stopach
