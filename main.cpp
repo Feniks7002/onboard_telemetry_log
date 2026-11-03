@@ -52,8 +52,26 @@ public :
     /**
     * @brief Pobiera bieżący stan, składa go w 32 - bitową ramkę z sumą  kontrolną i zapisuje do bufora .
     */
-    void recordCurrentState () ;
-    
+    void recordCurrentState () {
+        uint32_t frame = 0;
+        uint16_t encodedAltitude = altitude;
+
+        frame |= state;
+
+        if (parachute) {
+            frame |= (1u << 3);
+        }
+
+        if (baro_error) {
+            frame |= (1u << 4);
+            encodedAltitude = 0xFFFFFFFF;
+        } else if (state == DISARM || state == LANDED) {
+            encodedAltitude = 0;
+        }
+
+        frame |= ((uint32_t)encodedAltitude << 8);
+    }
+
     /**
     * @brief Funkcja pobiera ostatni ą ramk ę z bufora kołowego , dekoduje  ją oraz
     loguje zdekodowane warto ści w czytelny spos ób na konsol ę.
