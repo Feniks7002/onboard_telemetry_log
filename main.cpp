@@ -142,3 +142,9 @@ public :
         }
     }
 };
+
+int main() {
+    TelemetryBlackBox box;
+    
+    return 0;
+}
