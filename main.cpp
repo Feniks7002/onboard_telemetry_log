@@ -77,6 +77,13 @@ public :
         uint8_t checksum = bajt0 ^ bajt1 ^ bajt2;
 
         frame |= ((uint32_t)checksum << 24);
+        
+        frames[currentIndex] = frame;
+        currentIndex = (currentIndex + 1) % 16;
+
+        if (currentIndex < 16) {
+            framesCount++;
+        }
     }
 
     /**
