@@ -92,5 +92,25 @@ public :
     * @return Ostatnia ramka zapisana do bufora , jeśli xor się zgadza .
     0 xFFFFFFFF jeśli suma kontrolna jest niepoprawna .
     */
-    uint32_t getLastDataframe () ;
+    uint32_t getLastDataframe () {
+        if (framesCount == 0) {
+            return 0xFFFFFFFF;
+        }
+
+        uint8_t lastIndex = (currentIndex - 1 + 16) % 16;
+        uint32_t lastFrame = frames[lastIndex];
+
+        uint8_t bajt0 = lastFrame & 0xFF;
+        uint8_t bajt1 = (lastFrame >> 8) & 0xFF;
+        uint8_t bajt2 = (lastFrame >> 16) & 0xFF;
+        
+        uint8_t checksum = (lastFrame >> 24) % 0xFF;
+        uint8_t checksum2 = bajt0 ^ bajt1 ^ bajt2;
+
+        if (checksum == checksum2) {
+            return lastFrame;
+        } else {
+            return 0xFFFFFFFF;
+        }
+    }
 };
