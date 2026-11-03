@@ -39,17 +39,21 @@ public :
     void onParachuteDeployed () {
         parachute = true;
     }
-    
+
     /**
-    * @param error - Informuje czy wyst ąpił błąd barometru
-    * @param value - Odczyt wysoko ści w stopach
+    * @param error - Informuje czy wystąpił błąd barometru
+    * @param value - Odczyt wysokości w stopach
     */
-    void onBaroReading ( bool error , uint16_t value ) ;
+    void onBaroReading ( bool error , uint16_t value ) {
+        baro_error = error;
+        altitude = value;
+    }
+
     /**
-    * @brief Pobiera bieżący stan , składa go w 32 - bitow ą ramk ę z sumą  kontroln ą
-    i zapisuje do bufora .
+    * @brief Pobiera bieżący stan, składa go w 32 - bitową ramkę z sumą  kontrolną i zapisuje do bufora .
     */
     void recordCurrentState () ;
+    
     /**
     * @brief Funkcja pobiera ostatni ą ramk ę z bufora kołowego , dekoduje  ją oraz
     loguje zdekodowane warto ści w czytelny spos ób na konsol ę.
