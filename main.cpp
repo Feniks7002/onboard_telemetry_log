@@ -70,12 +70,19 @@ public :
         }
 
         frame |= ((uint32_t)encodedAltitude << 8);
+
+        uint8_t bajt0 = frame & 0xFF;
+        uint8_t bajt1 = (frame >> 8) & 0xFF;
+        uint8_t bajt2 = (frame >> 16) & 0xFF;
+        uint8_t checksum = bajt0 ^ bajt1 ^ bajt2;
+
+        frame |= ((uint32_t)checksum << 24);
     }
 
     /**
     * @brief Funkcja pobiera ostatni ą ramk ę z bufora kołowego , dekoduje  ją oraz
     loguje zdekodowane warto ści w czytelny spos ób na konsol ę.
-    * @Return Ostatnia ramka zapisana do bufora , jeśli xor się zgadza .
+    * @return Ostatnia ramka zapisana do bufora , jeśli xor się zgadza .
     0 xFFFFFFFF jeśli suma kontrolna jest niepoprawna .
     */
     uint32_t getLastDataframe () ;
